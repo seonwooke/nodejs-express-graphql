@@ -1,5 +1,10 @@
 type Query {
   posts: [Post]
+  post(id: ID!): Post
+}
+
+type Mutation {
+  addNewPost(id: ID!, title: String!, description: String!): Post
 }
 
 type Post {

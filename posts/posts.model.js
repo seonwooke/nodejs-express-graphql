@@ -1,4 +1,4 @@
-module.exports = [
+const posts = [
   {
     id: 'post1',
     title: 'It is a first post',
@@ -18,3 +18,31 @@ module.exports = [
     comments: []
   }
 ]
+
+function getAllPosts() {
+    return posts;
+}
+
+function getPostById(id) {
+    return posts.find(post => {
+        return post.id === id;
+    })
+}
+
+function addNewPost(id, title, description) {
+    const newPost = {
+        id, 
+        title, 
+        description,
+        comments: []
+    }
+
+    posts.push(newPost);
+    return newPost;
+}
+
+module.exports = {
+    getAllPosts,
+    getPostById,
+    addNewPost
+}

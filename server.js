@@ -2,6 +2,7 @@ const { makeExecutableSchema } = require('@graphql-tools/schema');
 const express = require('express');
 const { graphqlHTTP } = require('express-graphql');
 const { loadFilesSync } = require('@graphql-tools/load-files');
+const path = require('path');
 
 const app = express();
 const port = 4000;
@@ -10,20 +11,11 @@ const loadFiles = loadFilesSync('**/*', {
   extensions: ['graphql'], 
 });
 
+const loadResolvers = loadFilesSync(path.join(__dirname, "**/*.resolvers.js"));
+
 const schema = makeExecutableSchema({
   typeDefs: loadFiles,
-  resolvers: {
-    Query: {
-      posts: async (parent, args, context, info) => {
-        const post = await Promise.resolve(parent.posts);
-        return post;
-      },
-      comments: async (parent) => {
-        const comment = await Promise.resolve(parent.comments);
-        return comment;
-      }
-    }
-  }
+  resolvers: loadResolvers
 });
 
 const root = {
